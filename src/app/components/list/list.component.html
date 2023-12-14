@@ -1,0 +1,20 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">State/Province</th>
+      <th scope="col">Web Pages</th>
+      <th scope="col">Domains</th>
+      <th scope="col">.</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of data">
+      <td>{{ row.name }}</td>
+      <td>{{ row["state-province"] }}</td>
+      <td>{{ row.web_pages }}</td>
+      <td>{{ row.domains }}</td>
+      <td>icon</td>
+    </tr>
+  </tbody>
+</table>
