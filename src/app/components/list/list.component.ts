@@ -8,4 +8,10 @@ import { Uni } from 'src/app/interfaces/uni';
 })
 export class ListComponent {
   @Input() data: Uni[] = [];
+
+  removeRow(index: number): void {
+    if (index >= 0 && index < this.data.length) {
+      this.data.splice(index, 1);
+    }
+  }
 }

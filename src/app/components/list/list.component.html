@@ -9,12 +9,12 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let row of data">
+    <tr *ngFor="let row of data; let i = index">
       <td>{{ row.name }}</td>
       <td>{{ row["state-province"] }}</td>
       <td>{{ row.web_pages }}</td>
       <td>{{ row.domains }}</td>
-      <td><i-bs name="trash-fill"></i-bs></td>
+      <td><i-bs name="trash-fill" (click)="removeRow(i)"></i-bs></td>
     </tr>
   </tbody>
 </table>
