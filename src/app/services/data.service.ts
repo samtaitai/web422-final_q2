@@ -9,6 +9,7 @@ import { map } from 'rxjs/operators';
 })
 export class DataService {
   universities: Uni[] = [];
+  results: Uni[] = [];
   constructor(private http: HttpClient) {}
   fetchUniversities(): Observable<Uni[]> {
     return this.http
@@ -16,59 +17,24 @@ export class DataService {
       .pipe(
         map((data: Uni[]) => {
           this.universities = data;
-          return data;
+          return this.universities;
         })
       );
   }
-  filterUniByProvince(province: string): Uni[] {
-    return this.universities.filter((uni) => {
-      uni['state-province'].includes(province);
-    });
+  filterUniByProvince(province: string): Observable<Uni[]> {
+    return this.http
+      .get<Uni[]>('http://universities.hipolabs.com/search?country=Canada')
+      .pipe(
+        map((data: Uni[]) => {
+          this.results = [];
+          this.universities = data;
+          this.universities.forEach((uni) => {
+            if (uni['state-province'] == province) {
+              this.results.push(uni);
+            }
+          });
+          return this.results;
+        })
+      );
   }
-
-  /* 
-  getOntarioUniversities() {
-    var result = null;
-    if (this.isFetch) {
-      this.universities = this.universities.filter((uni) => {
-        uni['state-province'] == 'Ontario';
-      });
-      result = this.universities;
-    }
-    return result;
-  }
-  
-  getQuebecUniversities(): Uni[] {
-    this.getUniversities().subscribe((data: Uni[]) => {
-      this.isFetch = true;
-      this.universities = data;
-      this.universities = this.universities.filter((uni) => {
-        uni['state-province'] == 'Quebec';
-      });
-    });
-    return this.universities;
-  }
-  getAlbertaUniversities(): Uni[] {
-    this.getUniversities().subscribe((data: Uni[]) => {
-      this.isFetch = true;
-      this.universities = data;
-      this.universities = this.universities.filter((uni) => {
-        uni['state-province'] == 'Alberta';
-      });
-    });
-    return this.universities;
-  }
-  setUniversities(province?: string): Uni[] {
-    if (province == 'Ontario') {
-      this.getOntarioUniversities();
-    } else if (province == 'Quebec') {
-      this.getQuebecUniversities();
-    } else if (province == 'Alberta') {
-      this.getAlbertaUniversities();
-    } else {
-      this.getUniversities();
-    }
-    return this.universities;
-  }
-  */
 }

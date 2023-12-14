@@ -11,9 +11,8 @@ export class AlbertaComponent {
   universities: Uni[] = [];
 
   constructor(private dataService: DataService) {
-    this.dataService.fetchUniversities().subscribe((data) => {
+    this.dataService.filterUniByProvince('Alberta').subscribe((data) => {
       this.universities = data;
-      this.universities = this.dataService.filterUniByProvince('Alberta');
     });
   }
 }
