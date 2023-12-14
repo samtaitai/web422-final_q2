@@ -11,7 +11,7 @@ export class HomeComponent {
   universities: Uni[] = [];
 
   constructor(private dataService: DataService) {
-    this.dataService.getUniversities().subscribe((data: Uni[]) => {
+    this.dataService.fetchUniversities().subscribe((data) => {
       this.universities = data;
     });
   }

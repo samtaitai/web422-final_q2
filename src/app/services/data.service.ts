@@ -2,19 +2,30 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Uni } from '../interfaces/uni';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
   universities: Uni[] = [];
-  isFetch: boolean = false;
   constructor(private http: HttpClient) {}
-  getUniversities(): Observable<Uni[]> {
-    return this.http.get<Uni[]>(
-      'http://universities.hipolabs.com/search?country=Canada'
-    );
+  fetchUniversities(): Observable<Uni[]> {
+    return this.http
+      .get<Uni[]>('http://universities.hipolabs.com/search?country=Canada')
+      .pipe(
+        map((data: Uni[]) => {
+          this.universities = data;
+          return data;
+        })
+      );
   }
+  filterUniByProvince(province: string): Uni[] {
+    return this.universities.filter((uni) => {
+      uni['state-province'].includes(province);
+    });
+  }
+
   /* 
   getOntarioUniversities() {
     var result = null;
